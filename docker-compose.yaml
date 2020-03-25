@@ -1,0 +1,37 @@
+version: '3.0'
+
+services:
+  postgres:
+    image: postgres:10
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '127.0.0.1:5432:5432'
+  mandarhan:
+    image: docker.pkg.github.com/mandarhan/mandarhan/mandarhan:latest
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - static:/usr/src/app/static
+      - media:/usr/src/app/media
+    ports:
+      - 8000:8000
+  caddy:
+    image: lgatica/django-caddy:latest
+    links:
+      - mandarhan:django
+    environment:
+      - PORT=8000
+    ports:
+      - 80:80
+    volumes:
+      - static:/var/www/static
+      - media:/var/www/media
+      - ./logs:/var/log:z
+
+volumes:
+  static:
+  media:
