@@ -15,7 +15,8 @@ PostgreSQL совместимую базу, главное не забудьте
 2. `$ cd mandarhan`
 3. `$ cp example.env .env`
 4. Измените настройки окружения под свои нужды.
-5. `$ docker-compose run mandarhan init`
+5. `$ cat ~/GH_TOKEN.txt | docker login docker.pkg.github.com -u <username> --password-stdin`
+6. `$ docker-compose run mandarhan init`
 
 Вы можете не использовать данный репозиторий, достаточно 
 написать правильный конфиг для docker-compose, чтобы в нём
